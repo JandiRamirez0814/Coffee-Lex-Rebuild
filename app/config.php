@@ -18,7 +18,7 @@ try {
 }
 
 // Definición de la URL base del sitio
-$URL = "http://localhost/Coffe_lex/www.sistemadeventas.com";
+$URL = "http://localhost/ww.sistemadeventas.com";
 
 date_default_timezone_set('america/bogota');
 $fechaHora = date("Y-m-d H:i:s");

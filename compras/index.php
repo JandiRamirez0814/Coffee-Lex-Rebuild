@@ -62,12 +62,15 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 <td><?php echo $contador += 1;?></td>
                                                 <td><?php echo $compras_dato['nro_compra'];?></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                                    <!-- Botón para abrir el modal -->
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                                             data-target="#modal-producto<?php echo $id_compra;?>">
                                                         <?php echo $compras_dato['nombre_producto'];?>
                                                     </button>
+
+                                                    <!-- Modal -->
                                                     <div class="modal fade" id="modal-producto<?php echo $id_compra;?>">
-                                                        <div class="modal-dialog modal-xl">
+                                                        <div class="modal-dialog modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header" style="background-color: #30a3ae; color:white">
                                                                     <h4 class="modal-title">Información del Producto</h4>
@@ -77,50 +80,67 @@ include ('../app/controllers/compras/lista_compras.php');
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="row">
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="">Código</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['codigo'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Descripción</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['descripcion'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Stock</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['stock'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Stock Mínimo</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['stock_minimo'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Stock Máximo</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['stock_maximo'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="">Precio Compra</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['precio_compra_producto'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Precio Venta</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['precio_venta_producto'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Fecha Ingreso</label>
-                                                                                <input type="text" value="<?php echo $compras_dato['fecha_ingreso'];?>" class="form-control" readonly>
-                                                                            </div>
-                                                                        <div class="col-md-3">
-                                                                            <div class="form-group">
-                                                                                <label for="">Imagen</label>
-                                                                                <img src="<?php echo $URL."/almacen/img_productos/".$compras_dato['imagen'];?>" width="100%"  alt="">
-
-
-                                                                            </div>
+                                                                        <!-- Imagen del producto -->
+                                                                        <div class="col-md-5 d-flex align-items-center">
+                                                                            <img src="<?php echo $URL."/almacen/img_productos/".$compras_dato['imagen'];?>"
+                                                                                 class="img-fluid rounded" alt="Imagen del producto">
                                                                         </div>
 
+                                                                        <!-- Datos del producto -->
+                                                                        <div class="col-md-7">
+                                                                            <div class="row">
+                                                                                <!-- Primera columna de datos -->
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Código:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['codigo'];?>" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Descripción:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['descripcion'];?>" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Stock Actual:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['stock'];?>" readonly>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Segunda columna de datos -->
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Precio Compra:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['precio_compra_producto'];?>" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Precio Venta:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['precio_venta_producto'];?>" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Fecha Ingreso:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['fecha_ingreso'];?>" readonly>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Nueva columna: Usuario -->
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label>Usuario:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['nombre_usuarios_producto'];?>" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Categoría:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               value="<?php echo $compras_dato['nombre_categoria'];?>" readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -130,11 +150,99 @@ include ('../app/controllers/compras/lista_compras.php');
                                                             </div>
                                                         </div>
                                                     </div>
+
+
                                                 </td>
                                                 <td><?php echo $compras_dato['fecha_compra'];?></td>
-                                                <td><?php echo $compras_dato['id_proveedor'];?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                            data-target="#modal-proveedor<?php echo $id_compra;?>">
+                                                        <?php echo $compras_dato['nombre_proveedor'];?>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <!-- Modal Proveedor -->
+                                                    <div class="modal fade" id="modal-proveedor<?php echo $id_compra; ?>">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="background-color: #30a3ae; color:white">
+                                                                    <h4 class="modal-title">Información del Proveedor</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <!-- Nombre del Proveedor -->
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-user"></i> Nombre del proveedor</label>
+                                                                                <input type="text" value="<?php echo $compras_dato['nombre_proveedor']; ?>"
+                                                                                       class="form-control" disabled>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Celular del Proveedor -->
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-phone"></i> Celular del proveedor</label>
+                                                                                <a href="https://wa.me/57<?php echo $compras_dato['celular_proveedor']; ?>"
+                                                                                   target="_blank" class="btn btn-success btn-block">
+                                                                                    <i class="fa fa-whatsapp"></i>
+                                                                                    <?php echo $compras_dato['celular_proveedor']; ?>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Teléfono del Proveedor -->
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-phone-square"></i> Teléfono del proveedor</label>
+                                                                                <input type="text" value="<?php echo $compras_dato['telefono_proveedor']; ?>"
+                                                                                       class="form-control" disabled>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Empresa del Proveedor -->
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-building"></i> Empresa del proveedor</label>
+                                                                                <input type="text" value="<?php echo $compras_dato['empresa']; ?>"
+                                                                                       class="form-control" disabled>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Email del Proveedor -->
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-envelope"></i> Email del proveedor</label>
+                                                                                <input type="text" value="<?php echo $compras_dato['email_proveedor']; ?>"
+                                                                                       class="form-control" disabled>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Dirección del Proveedor -->
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label><i class="fa fa-map-marker"></i> Dirección del proveedor</label>
+                                                                                <input type="text" value="<?php echo $compras_dato['direccion_proveedor']; ?>"
+                                                                                       class="form-control" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Footer del Modal -->
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
                                                 <td><?php echo $compras_dato['comprobante'];?></td>
-                                                <td><?php echo $compras_dato['id_usuario'];?></td>
+                                                <td><?php echo $compras_dato['nombres_usuario'];?></td>
                                                 <td><?php echo $compras_dato['precio_compra'];?></td>
                                                 <td><?php echo $compras_dato['cantidad'];?></td>
                                                 <td>

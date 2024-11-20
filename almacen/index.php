@@ -69,7 +69,25 @@ include ('../app/controllers/almacen/lista_productos.php');
                                                 </td>
                                                 <td><?php echo $productos_dato['nombre']; ?></td>
                                                 <td><?php echo $productos_dato['descripcion']; ?></td>
-                                                <td><?php echo $productos_dato['stock']; ?></td>
+                                                <?php
+                                                $Stock_actual = $productos_dato['stock'];
+                                                $stock_maximo = $productos_dato['stock_maximo'];
+                                                $stock_minimo = $productos_dato['stock_minimo'];
+                                                if($Stock_actual <= $stock_minimo){ ?>
+
+                                                    <td style="background-color: #c42f2f"><center><?php echo $productos_dato['stock']; ?></center></td>
+                                                <?php
+                                                } else if($Stock_actual > $stock_maximo){ ?>
+                                                    <td style="background-color: #30ae4e"><center><?php echo $productos_dato['stock']; ?></center></td>
+
+                                                <?php
+                                                }else{ ?>
+                                                    <td ><center><?php echo $productos_dato['stock']; ?></center></td>
+
+                                                <?php
+                                                }
+                                                ?>
+
                                                 <td><?php echo $productos_dato['precio_compra']; ?></td>
                                                 <td><?php echo $productos_dato['precio_venta']; ?></td>
                                                 <td><?php echo $productos_dato['fecha_ingreso']; ?></td>

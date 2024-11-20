@@ -1,11 +1,11 @@
 <?php
-global $pdo, $productos_datos, $categorias_datos, $URL, $id_usuario, $proveedores_datos, $compras_datos;
+global $pdo, $productos_datos, $categorias_datos, $URL, $id_usuario, $proveedores_datos, $compras_datos, $codigo, $nombre_categoria, $descripcion, $stock, $stock_minimo, $stock_maximo, $fecha_ingreso, $empresa, $nro_compra, $cantidad, $comprobante, $fecha_compra, $precio_compra, $id_compra;
 include('../app/config.php');
 include('../layout/sesion.php');
 include('../layout/parte1.php');
 include('../app/controllers/almacen/lista_productos.php');
 include ('../app/controllers/proveedores/lista_proveedores.php');
-include ('../app/controllers/compras/lista_compras.php');
+include ('../app/controllers/compras/cargar_compra.php');
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -15,7 +15,7 @@ include ('../app/controllers/compras/lista_compras.php');
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Registro de una nueva compra</h1>
+                    <h1 class="m-0">Actualización de la compra</h1>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@ include ('../app/controllers/compras/lista_compras.php');
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card card-primary">
+                            <div class="card card-success">
                                 <div class="card-header">
                                     <h3 class="card-title">Registra los campos</h3>
                                     <div class="card-tools">
@@ -120,21 +120,22 @@ include ('../app/controllers/compras/lista_compras.php');
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <input type="text" id="id_producto" hidden="">
+                                                        <input type="text" value="<?= $id_producto; ?>" id="id_producto" hidden="">
                                                         <label for="codigo">Código:</label>
-                                                        <input type="text" class="form-control" id="codigo" disabled>
+                                                        <input type="text" value="<?= $codigo; ?>" class="form-control" id="codigo" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="nombre_producto">Nombre:</label>
-                                                        <input type="text" id="nombre_producto" name="nombre" class="form-control" disabled>
+                                                        <input type="text" id="nombre_producto" value="<?= /** @var TYPE_NAME $nombre_producto */
+                                                        $nombre_producto; ?>" name="nombre" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="categoria">Categoría:</label>
-                                                        <input type="text" class="form-control" id="categoria" disabled>
+                                                        <input type="text" class="form-control" value="<?= $nombre_categoria; ?>" id="categoria" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,13 +143,14 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="usuario_producto">Usuario:</label>
-                                                        <input type="text" class="form-control" id="usuario_producto" disabled>
+                                                        <input type="text" class="form-control" value="<?= /** @var TYPE_NAME $nombre_usuarios_producto */
+                                                        $nombre_usuarios_producto; ?>" id="usuario_producto" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label for="descripcion_producto">Descripción:</label>
-                                                        <textarea name="descripcion" id="descripcion_producto" cols="30" rows="2" class="form-control" disabled></textarea>
+                                                        <textarea name="descripcion"  id="descripcion_producto" cols="30" rows="2" class="form-control" disabled><?php echo $descripcion; ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,44 +158,47 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="stock">Stock:</label>
-                                                        <input type="number" name="stock" id="stock" class="form-control" disabled style="background-color: #baff0c">
+                                                        <input type="number" value="<?= $stock; ?>" name="stock" id="stock" class="form-control" disabled style="background-color: #baff0c">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="stock_minimo">Stock mínimo:</label>
-                                                        <input type="number" name="stock_minimo" id="stock_minimo" class="form-control" disabled>
+                                                        <input type="number" value="<?= $stock_minimo; ?>" name="stock_minimo" id="stock_minimo" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="stock_maximo">Stock máximo:</label>
-                                                        <input type="number" name="stock_maximo" id="stock_maximo" class="form-control" disabled>
+                                                        <input type="number" value="<?= $stock_maximo; ?>" name="stock_maximo" id="stock_maximo" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="precio_compra">Precio Compra:</label>
-                                                        <input type="number" name="precio_compra" id="precio_compra" class="form-control" disabled>
+                                                        <input type="number" value="<?= /** @var TYPE_NAME $precio_compra_producto */
+                                                        $precio_compra_producto; ?>" name="precio_compra" id="precio_compra" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="precio_venta">Precio Venta:</label>
-                                                        <input type="number" name="precio_venta" id="precio_venta" class="form-control" disabled>
+                                                        <input type="number" value="<?= /** @var TYPE_NAME $precio_venta_producto */
+                                                        $precio_venta_producto; ?>" name="precio_venta" id="precio_venta" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="fecha_ingreso">Fecha de Ingreso:</label>
-                                                        <input type="text" class="form-control" id="fecha_ingreso" disabled>
+                                                        <input type="text" value="<?= $fecha_ingreso; ?>" class="form-control" id="fecha_ingreso" disabled>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <h5>Imagen del producto</h5>
-                                            <img id="imagen_producto" src="" alt="Imagen del producto" style="max-width: 50%; max-height: 200px;">
+                                            <img id="imagen_producto" src="<?php /** @var TYPE_NAME $imagen */
+                                            echo $URL."/almacen/img_productos/".$imagen;?>" alt="Imagen del producto" style="max-width: 50%; max-height: 200px;">
                                         </div>
                                     </div>
                                     <hr>
@@ -271,21 +276,25 @@ include ('../app/controllers/compras/lista_compras.php');
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <input type="text" id="id_proveedor" hidden>
+                                                        <input type="text" value="<?= /** @var TYPE_NAME $id_proveedor_tabla */
+                                                        $id_proveedor_tabla; ?>" id="id_proveedor" hidden>
                                                         <label for="">Nombre </label>
-                                                        <input type="text" id="nombre_proveedor" class="form-control" disabled>
+                                                        <input type="text" id="nombre_proveedor" value="<?php /** @var TYPE_NAME $nombre_proveedor_tabla */
+                                                        echo $nombre_proveedor_tabla; ?>" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="">Celular</label>
-                                                        <input type="number" id="celular" class="form-control" disabled>
+                                                        <input type="number" id="celular" value="<?php /** @var TYPE_NAME $celular_proveedor */
+                                                        echo $celular_proveedor; ?>" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="">Teléfono</label>
-                                                        <input type="number" id="telefono" class="form-control" disabled>
+                                                        <input type="number" id="telefono" value="<?php /** @var TYPE_NAME $telefono_proveedor */
+                                                        echo $telefono_proveedor; ?>" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -293,19 +302,21 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="">Empresa</label>
-                                                        <input type="text" id="empresa" class="form-control" disabled>
+                                                        <input type="text" id="empresa" value="<?php echo $empresa; ?>" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="">Email</label>
-                                                        <input type="email" id="email" class="form-control" disabled>
+                                                        <input type="email" id="email" value="<?php /** @var TYPE_NAME $email_proveedor */
+                                                        echo $email_proveedor; ?>" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="">Dirección</label>
-                                                        <textarea id="direccion" cols="30" rows="3" class="form-control" disabled></textarea>
+                                                        <textarea id="direccion"   cols="30" rows="3" class="form-control" disabled><?php /** @var TYPE_NAME $direccion_proveedor */
+                                                            echo $direccion_proveedor; ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -314,13 +325,13 @@ include ('../app/controllers/compras/lista_compras.php');
 
 
                                 </div>
+                            </div>
                         </div>
                     </div>
+
+
+
                 </div>
-
-
-
-            </div>
                 <div class="col-md-3">
 
 
@@ -342,40 +353,34 @@ include ('../app/controllers/compras/lista_compras.php');
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <?php
-                                                $contador_de_compras = 1;
-                                                foreach ($compras_datos as $compras_dato) {
-                                                    $contador_de_compras +=1;
 
-                                                }
-                                                ?>
                                                 <label for="">Número de la compra</label>
-                                                <input type="text" value="<?php echo $contador_de_compras; ?>" style="text-align: center" class="form-control" disabled>
-                                                <input type="text" value="<?php echo $contador_de_compras; ?>" id="nro_compra" hidden >
+                                                <input type="text" value="<?php echo $nro_compra; ?>" style="text-align: center" class="form-control" disabled>
+                                                <input type="text" value="<?php echo $nro_compra; ?>" id="nro_compra" hidden >
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">Fecha de la compra</label>
-                                                <input type="date" class="form-control" id="fecha_compra">
+                                                <input type="date" class="form-control" value="<?php echo $fecha_compra; ?>" id="fecha_compra" >
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">Comprobante de la compra</label>
-                                                <input type="tetx" class="form-control" id="comprobante">
+                                                <input type="tetx" class="form-control" value="<?php echo $comprobante; ?>" id="comprobante" >
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">Valor de la compra</label>
-                                                <input type="number" class="form-control" id="valor_compra">
+                                                <input type="number" class="form-control" id="valor_compra" value="<?php echo $precio_compra; ?>" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="">Stock actual</label>
-                                                <input type="number"  style="background-color: #baff0c; text-align: center" id="Stock_actual" class="form-control" disabled>
+                                                <input type="number" value="<?php echo $stock=$stock-$cantidad; ?>" style="background-color: #baff0c; text-align: center" id="Stock_actual" class="form-control" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -384,26 +389,31 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 <input type="number"  style=" text-align: center" id="Stock_total" class="form-control" disabled>
                                             </div>
                                         </div>
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">Cantidad de la compra</label>
-                                                <input type="number" id="cantidad_compra" style="text-align: center" class="form-control">
+                                                <input type="number" value="<?php echo $cantidad; ?>" id="cantidad_compra" style="text-align: center" class="form-control" >
                                             </div>
                                             <script>
                                                 $('#cantidad_compra').keyup(function (){
-
+                                                    sumacantidades();
+                                                });
+                                                sumacantidades();
+                                                function sumacantidades(){
                                                     var Stock_actual =$('#Stock_actual').val();
                                                     var stock_compra =$('#cantidad_compra').val();
                                                     var total = parseInt(Stock_actual) + parseInt(stock_compra) ;
                                                     $('#Stock_total').val(total);
-                                                });
+                                                }
                                             </script>
+
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="">Usuario</label>
-                                                <input type="tetx" value="<?php /** @var TYPE_NAME $email_sesion */
-                                                echo $email_sesion; ?>" class="form-control" disabled>
+                                                <input type="text" value="<?php /** @var TYPE_NAME $nombre_usuarios_producto */
+                                                echo $nombre_usuarios_producto; ?>" class="form-control" disabled>
                                             </div>
                                         </div>
 
@@ -412,13 +422,14 @@ include ('../app/controllers/compras/lista_compras.php');
                                     <hr>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-block" id="btn_guardar_compra">Guardar Compra</button>
+                                            <button class="btn btn-success btn-block" id="btn_actualizar_compra">Actualizar Compra</button>
                                         </div>
 
                                     </div>
                                     <script>
-                                        $('#btn_guardar_compra').click(function () {
+                                        $('#btn_actualizar_compra').click(function () {
 
+                                            var id_compra = '<?php echo $id_compra; ?>';
                                             var id_producto = $('#id_producto').val();
                                             var nro_compra = $('#nro_compra').val();
                                             var fecha_compra = $('#fecha_compra').val();
@@ -448,8 +459,9 @@ include ('../app/controllers/compras/lista_compras.php');
                                                 alert("Debe llenar todos los campos");
                                             }
                                             else {
-                                                var url = "../app/controllers/compras/create.php";
+                                                var url = "../app/controllers/compras/update.php";
                                                 $.get(url, {
+                                                    id_compra: id_compra,
                                                     id_producto: id_producto,
                                                     nro_compra: nro_compra,
                                                     fecha_compra: fecha_compra,
@@ -460,7 +472,7 @@ include ('../app/controllers/compras/lista_compras.php');
                                                     cantidad_compra: cantidad_compra,
                                                     Stock_total: Stock_total
                                                 },function (datos) {
-                                                    $('#respuesta_create').html(datos);
+                                                    $('#respuesta_update').html(datos);
                                                 });
                                             }
 
@@ -472,118 +484,118 @@ include ('../app/controllers/compras/lista_compras.php');
                             <!-- /.card -->
                         </div>
                         <!-- /.col -->
-                        <div id="respuesta_create"></div>
+                        <div id="respuesta_update"></div>
 
 
+                    </div>
                 </div>
+            </div>
         </div>
-    </div>
-</div>
-<!-- /.content-wrapper -->
+        <!-- /.content-wrapper -->
 
-<?php include('../layout/parte2.php'); ?>
-<script>
-    $(document).ready(function() {
-        // Funcionalidad para seleccionar producto
-        <?php foreach ($productos_datos as $productos_dato) { ?>
-        $("#btn_seleccionar<?php echo $productos_dato['id_producto']; ?>").on("click", function() {
-            $("#id_producto").val($("#id_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#codigo").val($("#codigo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#nombre_producto").val($("#nombre_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#categoria").val($("#categoria<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#usuario_producto").val($("#usuario_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#descripcion_producto").val($("#descripcion_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#stock").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#Stock_actual").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());// Asignar el valor de Stock_actual a #stock
-            $("#stock_minimo").val($("#stock_minimo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#stock_maximo").val($("#stock_maximo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#precio_compra").val($("#precio_compra<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#precio_venta").val($("#precio_venta<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#fecha_ingreso").val($("#fecha_ingreso<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#imagen_producto").attr("src", $("#imagen<?php echo $productos_dato['id_producto']; ?>").attr("src"));
-            $("#modal-buscar_producto").modal("hide");
-        });
-        <?php } ?>
-    });
-    $(document).ready(function() {
-        // Funcionalidad para seleccionar proveedor
-        <?php foreach ($proveedores_datos as $proveedores_dato) { ?>
-        $("#btn_seleccionar_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").on("click", function() {
-            // Asignar valores al formulario o campos correspondientes
-            $("#id_proveedor").val($("#id_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#nombre_proveedor").val($("#nombre_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#celular").val($("#celular<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#telefono").val($("#telefono<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#empresa").val($("#empresa<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#email").val($("#email<?php echo $proveedores_dato['id_proveedor']; ?>").text());
-            $("#direccion").val($("#direccion<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+        <?php include('../layout/parte2.php'); ?>
+        <script>
+            $(document).ready(function() {
+                // Funcionalidad para seleccionar producto
+                <?php foreach ($productos_datos as $productos_dato) { ?>
+                $("#btn_seleccionar<?php echo $productos_dato['id_producto']; ?>").on("click", function() {
+                    $("#id_producto").val($("#id_producto<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#codigo").val($("#codigo<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#nombre_producto").val($("#nombre_producto<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#categoria").val($("#categoria<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#usuario_producto").val($("#usuario_producto<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#descripcion_producto").val($("#descripcion_producto<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#stock").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#Stock_actual").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());// Asignar el valor de Stock_actual a #stock
+                    $("#stock_minimo").val($("#stock_minimo<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#stock_maximo").val($("#stock_maximo<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#precio_compra").val($("#precio_compra<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#precio_venta").val($("#precio_venta<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#fecha_ingreso").val($("#fecha_ingreso<?php echo $productos_dato['id_producto']; ?>").text());
+                    $("#imagen_producto").attr("src", $("#imagen<?php echo $productos_dato['id_producto']; ?>").attr("src"));
+                    $("#modal-buscar_producto").modal("hide");
+                });
+                <?php } ?>
+            });
+            $(document).ready(function() {
+                // Funcionalidad para seleccionar proveedor
+                <?php foreach ($proveedores_datos as $proveedores_dato) { ?>
+                $("#btn_seleccionar_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").on("click", function() {
+                    // Asignar valores al formulario o campos correspondientes
+                    $("#id_proveedor").val($("#id_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#nombre_proveedor").val($("#nombre_proveedor<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#celular").val($("#celular<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#telefono").val($("#telefono<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#empresa").val($("#empresa<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#email").val($("#email<?php echo $proveedores_dato['id_proveedor']; ?>").text());
+                    $("#direccion").val($("#direccion<?php echo $proveedores_dato['id_proveedor']; ?>").text());
 
-            // Cerrar modal después de seleccionar
-            $("#modal-buscar_proveedor").modal("hide");
-        });
-        <?php } ?>
-    });
-</script>
+                    // Cerrar modal después de seleccionar
+                    $("#modal-buscar_proveedor").modal("hide");
+                });
+                <?php } ?>
+            });
+        </script>
 
 
 
-    <script>
-    $(function () {
-        $("#example1").DataTable({
-            "pageLength": 5,
-            "responsive": true,
-            "lengthChange": true,
-            "autoWidth": false,
-            "language": {
-                "emptyTable": "No hay información",
-                "decimal": "",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ productos",
-                "infoEmpty": "Mostrando 0 a 0 de 0 productos",
-                "infoFiltered": "(filtrado de _MAX_ total productos)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ productos",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscador:",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
+        <script>
+            $(function () {
+                $("#example1").DataTable({
+                    "pageLength": 5,
+                    "responsive": true,
+                    "lengthChange": true,
+                    "autoWidth": false,
+                    "language": {
+                        "emptyTable": "No hay información",
+                        "decimal": "",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ productos",
+                        "infoEmpty": "Mostrando 0 a 0 de 0 productos",
+                        "infoFiltered": "(filtrado de _MAX_ total productos)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ productos",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscador:",
+                        "zeroRecords": "Sin resultados encontrados",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
 
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-    $(function () {
-        $("#example2").DataTable({
-            "pageLength": 5,
-            "responsive": true,
-            "lengthChange": true,
-            "autoWidth": false,
-            "language": {
-                "emptyTable": "No hay información",
-                "decimal": "",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ proveedores",
-                "infoEmpty": "Mostrando 0 a 0 de 0 proveedores",
-                "infoFiltered": "(filtrado de _MAX_ total proveedores)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ proveedores",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscador:",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            });
+            $(function () {
+                $("#example2").DataTable({
+                    "pageLength": 5,
+                    "responsive": true,
+                    "lengthChange": true,
+                    "autoWidth": false,
+                    "language": {
+                        "emptyTable": "No hay información",
+                        "decimal": "",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ proveedores",
+                        "infoEmpty": "Mostrando 0 a 0 de 0 proveedores",
+                        "infoFiltered": "(filtrado de _MAX_ total proveedores)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ proveedores",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscador:",
+                        "zeroRecords": "Sin resultados encontrados",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
 
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            });
+        </script>

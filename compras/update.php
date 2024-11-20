@@ -40,7 +40,7 @@ include ('../app/controllers/compras/cargar_compra.php');
                                     <div style="display:flex">
                                         <h5>Datos del producto</h5>
                                         <div style="width: 20px"></div>
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-buscar_producto">
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-buscar_producto">
                                             <i class="fa fa-search"></i> Buscar Producto
                                         </button>
 
@@ -205,7 +205,7 @@ include ('../app/controllers/compras/cargar_compra.php');
                                     <div style="display:flex">
                                         <h5>Datos del proveedor</h5>
                                         <div style="width: 20px"></div>
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-buscar_proveedor">
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-buscar_proveedor">
                                             <i class="fa fa-search"></i> Buscar Proveedor
                                         </button>
 
@@ -337,7 +337,7 @@ include ('../app/controllers/compras/cargar_compra.php');
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card card-outline card-primary">
+                            <div class="card card-outline card-success">
                                 <div class="card-header">
                                     <h3 class="card-title">Detalle de la compra</h3>
 

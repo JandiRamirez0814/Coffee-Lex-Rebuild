@@ -50,7 +50,7 @@ if ($sentencia->execute()) {
     $URL = "http://localhost/www.sistemadeventas.com";
     ?>
     <script>
-        location.href = "<?php echo $URL; ?>/compras";
+        location.href = "http://localhost/Coffe_lex/www.sistemadeventas.com/compras";
     </script>
     <?php
 } else {

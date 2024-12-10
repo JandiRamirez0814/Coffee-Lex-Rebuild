@@ -84,7 +84,7 @@ include ('../app/controllers/compras/lista_compras.php');
                                                                     <tr>
                                                                         <td><?php echo ++$contador; ?></td>
                                                                         <td>
-                                                                            <button class="btn btn-info" id="btn_seleccionar<?php echo $id_producto; ?>">
+                                                                            <button class="btn btn-info btn-seleccionar" data-id="<?php echo $id_producto; ?>">
                                                                                 Seleccionar
                                                                             </button>
                                                                         </td>
@@ -484,26 +484,30 @@ include ('../app/controllers/compras/lista_compras.php');
 <?php include('../layout/parte2.php'); ?>
 <script>
     $(document).ready(function() {
-        // Funcionalidad para seleccionar producto
-        <?php foreach ($productos_datos as $productos_dato) { ?>
-        $("#btn_seleccionar<?php echo $productos_dato['id_producto']; ?>").on("click", function() {
-            $("#id_producto").val($("#id_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#codigo").val($("#codigo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#nombre_producto").val($("#nombre_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#categoria").val($("#categoria<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#usuario_producto").val($("#usuario_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#descripcion_producto").val($("#descripcion_producto<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#stock").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#Stock_actual").val($("#stock<?php echo $productos_dato['id_producto']; ?>").text());// Asignar el valor de Stock_actual a #stock
-            $("#stock_minimo").val($("#stock_minimo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#stock_maximo").val($("#stock_maximo<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#precio_compra").val($("#precio_compra<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#precio_venta").val($("#precio_venta<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#fecha_ingreso").val($("#fecha_ingreso<?php echo $productos_dato['id_producto']; ?>").text());
-            $("#imagen_producto").attr("src", $("#imagen<?php echo $productos_dato['id_producto']; ?>").attr("src"));
-            $("#modal-buscar_producto").modal("hide");
+        // Delegación de eventos para seleccionar un producto
+        $(document).on("click", ".btn-seleccionar", function() {
+            const idProducto = $(this).data("id");
+            if (idProducto) {
+                // Asignar valores a los campos correspondientes
+                $("#id_producto").val($(`#id_producto${idProducto}`).text().trim());
+                $("#codigo").val($(`#codigo${idProducto}`).text().trim());
+                $("#nombre_producto").val($(`#nombre_producto${idProducto}`).text().trim());
+                $("#categoria").val($(`#categoria${idProducto}`).text().trim());
+                $("#usuario_producto").val($(`#usuario_producto${idProducto}`).text().trim());
+                $("#descripcion_producto").val($(`#descripcion_producto${idProducto}`).text().trim());
+                $("#stock").val($(`#stock${idProducto}`).text().trim());
+                $("#Stock_actual").val($(`#stock${idProducto}`).text().trim());
+                $("#stock_minimo").val($(`#stock_minimo${idProducto}`).text().trim());
+                $("#stock_maximo").val($(`#stock_maximo${idProducto}`).text().trim());
+                $("#precio_compra").val($(`#precio_compra${idProducto}`).text().trim());
+                $("#precio_venta").val($(`#precio_venta${idProducto}`).text().trim());
+                $("#fecha_ingreso").val($(`#fecha_ingreso${idProducto}`).text().trim());
+                $("#imagen_producto").attr("src", $(`#imagen${idProducto}`).attr("src").trim());
+                $("#modal-buscar_producto").modal("hide");
+            } else {
+                alert("Error: No se pudo seleccionar el producto. Inténtelo de nuevo.");
+            }
         });
-        <?php } ?>
     });
     $(document).ready(function() {
         // Funcionalidad para seleccionar proveedor

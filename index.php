@@ -1,5 +1,5 @@
 <?php
-global $pdo, $usuarios_datos, $URL, $roles_datos, $categorias_datos, $productos_datos, $proveedores_datos;
+global $pdo, $usuarios_datos, $URL, $roles_datos, $categorias_datos, $productos_datos, $proveedores_datos, $compras_datos;
 include ('app/config.php');
 include ('layout/sesion.php');
 include ('layout/parte1.php');
@@ -8,6 +8,7 @@ include ('app/controllers/roles/lista_roles.php');
 include ('app/controllers/categorias/lista_categorias.php');
 include ('app/controllers/almacen/lista_productos.php');
 include ('app/controllers/proveedores/lista_proveedores.php');
+include ('app/controllers/compras/lista_compras.php');
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -152,6 +153,30 @@ include ('app/controllers/proveedores/lista_proveedores.php');
                             </div>
                         </a>
                         <a href="<?php echo $URL;?>/proveedores" class="small-box-footer">
+                            Mas información <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <?php
+                            $contador_de_compras = 0;
+                            foreach ($compras_datos as $compra_dato) {
+                                $contador_de_compras += 1;
+                            }
+                            ?>
+                            <h3> <?php echo $contador_de_compras; ?> </h3>
+
+                            <p>Compras registradas</p>
+                        </div>
+                        <a href="<?php echo $URL;?>/compras">
+                            <div class="icon">
+                                <i class="fas fa-cart-plus"></i>
+                            </div>
+                        </a>
+                        <a href="<?php echo $URL;?>/compras" class="small-box-footer">
                             Mas información <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

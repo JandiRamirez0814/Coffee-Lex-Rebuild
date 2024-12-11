@@ -32,12 +32,13 @@ include('../app/controllers/clientes/lista_clientes.php');
                             <?php
                             $contador_de_ventas = 0;
                             foreach ($ventas_datos as $ventas_dato) {
-                                $contador_de_ventas+= 1;
+                                $contador_de_ventas = $contador_de_ventas+ 1;
 
                             }
                             ?>
                             <h3 class="card-title"><i class="fa fa-shopping-bag"></i>  Venta Nro
-                                <input type="text" style="text-align: center" value="<?php echo $contador_de_ventas+1?>" disabled></h3>
+                                <input type="text" style="text-align: center" value="<?php echo $ventas_dato['nro_venta'] +1;?>" disabled >
+                            </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -201,7 +202,7 @@ include('../app/controllers/clientes/lista_clientes.php');
                                     $precio_total = 0;
                                     $nro_venta = $contador_de_ventas + 1 ;
                                     $sql_carrito = "SELECT *, pro.nombre as nombre_producto, pro.descripcion as descripcion,
-                                    pro.precio_venta as precio_venta, pro.stock as stock, pro.id_producto as id_producto
+                                    pro.precio_venta as precio_venta, pro.stock as stock, pro.id_producto as id_productos
                                     FROM tb_carrito AS carr INNER JOIN tb_almacen as pro ON carr.id_producto = pro.id_producto
                                     WHERE nro_venta = '$nro_venta' ORDER BY id_carrito ASC";
                                     $squery_carrito = $pdo->prepare($sql_carrito);
@@ -216,8 +217,10 @@ include('../app/controllers/clientes/lista_clientes.php');
                                         ?>
                                         <tr>
                                             <td><center><?php echo $contador_de_carrito;?></center>
-                                                <input type="text" value="<?php echo $carrito_dato['id_producto'];?>" id="id_producto<?php echo $contador_de_carrito;?>"    >
-                                                </td>
+                                                <input type="text" value="<?php echo $carrito_dato['id_productos']; ?>" id="id_productos<?php echo $contador_de_carrito; ?>" hidden>
+                                            </td>
+
+
                                             <td><?php echo $carrito_dato['nombre_producto'];?></td>
                                             <td><?php echo $carrito_dato['descripcion'];?></td>
                                             <td><center>
@@ -464,38 +467,62 @@ include('../app/controllers/clientes/lista_clientes.php');
                                         var id_cliente  = $('#id_cliente').val();
                                         var total_a_cancelar  = $('#total_a_cancelar').val();
 
+
                                         if(id_cliente == ""){
                                             alert("debe seleccionar un cliente")
 
                                         }else {
-                                           // guardar_venta();
+
                                             actualizar_stock();
+                                            guardar_venta();
 
                                         }
 
-
                                         function actualizar_stock() {
-                                            var n = '<?php echo $contador_de_carrito; ?>'; // Total de elementos
+                                            var n = '<?php echo $contador_de_carrito; ?>'; // Número de productos en el carrito
+
                                             for (var i = 1; i <= n; i++) {
+
                                                 var a = '#stock_de_inventario' + i; // Selector dinámico para stock
-                                                var stock_de_inventario = $(a).val(); // Obtener valor de stock
+                                                var stock_de_inventario = parseFloat($(a).val()); // Obtener valor de stock (asegurándonos de que sea un número)
 
                                                 var b = '#cantidad_carrito' + i; // Selector dinámico para cantidad
-                                                var cantidad_carrito = $(b).text(); // Obtener texto de cantidad
+                                                var cantidad_carrito;
 
-                                                var c = '#id_producto' + i; // Selector dinámico para id_producto
-                                                var id_producto = $(c).val(); // Obtener valor del id_producto
+                                                if ($(b).length > 0) { // Verificamos si el campo existe
+                                                    cantidad_carrito = parseFloat($(b).text()); // Obtener texto de cantidad
+                                                } else {
+                                                    console.log("No se encontró el campo de cantidad para el producto " + i);
+                                                    continue; // Continuamos con el siguiente producto si no encontramos el campo
+                                                }
 
-                                                // Calcula el stock resultante
-                                                var stock_calculado = parseFloat(stock_de_inventario) - parseFloat(cantidad_carrito);
+                                                var c = '#id_productos' + i; // Selector dinámico para id_producto
+                                                var id_productos = $(c).val(); // Obtener id del producto
 
-                                                // Muestra la información para cada elemento
-                                                alert(
-                                                    'Producto: ' + id_producto + '\n' +
-                                                    'Stock inicial: ' + stock_de_inventario + '\n' +
-                                                    'Cantidad comprada: ' + cantidad_carrito + '\n' +
-                                                    'Stock final: ' + stock_calculado
-                                                );
+                                                // Validar los valores
+                                                if (isNaN(stock_de_inventario) || isNaN(cantidad_carrito) || !id_productos) {
+                                                    alert(`Error en los datos del producto ${i}: stock=${stock_de_inventario}, cantidad=${cantidad_carrito}, id_producto=${id_productos}`);
+                                                    continue;
+                                                }
+
+                                                // Calcula el nuevo stock
+                                                var stock_calculado = stock_de_inventario - cantidad_carrito;
+
+                                                // Mostrar los datos para depuración
+                                                console.log(`Producto ${i}: ID=${id_productos}, Stock Inicial=${stock_de_inventario}, Cantidad=${cantidad_carrito}, Stock Calculado=${stock_calculado}`);
+
+                                                // Enviar los datos al servidor para actualizar el stock
+                                                var url2 = "../app/controllers/ventas/actualizar_stock.php";
+                                                $.get(url2, {
+                                                    id_productos: id_productos,
+                                                    stock_calculado: stock_calculado
+                                                })
+                                                    .done(function (datos) {
+                                                        console.log(`Respuesta del servidor para producto ${id_productos}: ${datos}`);
+                                                    })
+                                                    .fail(function () {
+                                                        alert(`Error al actualizar el producto ${id_productos}`);
+                                                    });
                                             }
                                         }
 

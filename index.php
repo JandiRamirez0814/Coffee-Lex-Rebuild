@@ -1,5 +1,5 @@
 <?php
-global $pdo, $usuarios_datos, $URL, $roles_datos, $categorias_datos, $productos_datos, $proveedores_datos, $compras_datos;
+global $pdo, $usuarios_datos, $URL, $roles_datos, $categorias_datos, $productos_datos, $proveedores_datos, $compras_datos, $ventas_datos, $clientes_datos;
 include ('app/config.php');
 include ('layout/sesion.php');
 include ('layout/parte1.php');
@@ -9,6 +9,8 @@ include ('app/controllers/categorias/lista_categorias.php');
 include ('app/controllers/almacen/lista_productos.php');
 include ('app/controllers/proveedores/lista_proveedores.php');
 include ('app/controllers/compras/lista_compras.php');
+include ('app/controllers/ventas/lista_ventas.php');
+include ('app/controllers/clientes/lista_clientes.php');
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -177,6 +179,54 @@ include ('app/controllers/compras/lista_compras.php');
                             </div>
                         </a>
                         <a href="<?php echo $URL;?>/compras" class="small-box-footer">
+                            Mas información <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-gradient-secondary">
+                        <div class="inner">
+                            <?php
+                            $contador_de_ventas = 0;
+                            foreach ($ventas_datos as $ventas_dato) {
+                                $contador_de_ventas += 1;
+                            }
+                            ?>
+                            <h3> <?php echo $contador_de_ventas; ?> </h3>
+
+                            <p>Ventas registradas</p>
+                        </div>
+                        <a href="<?php echo $URL;?>/ventas">
+                            <div class="icon">
+                                <i class="fas fa-shopping-basket"></i>
+                            </div>
+                        </a>
+                        <a href="<?php echo $URL;?>/ventas" class="small-box-footer">
+                            Mas información <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-fuchsia">
+                        <div class="inner">
+                            <?php
+                            $contador_de_clientes = 0;
+                            foreach ($clientes_datos as $clientes_dato) {
+                                $contador_de_clientes += 1;
+                            }
+                            ?>
+                            <h3> <?php echo $contador_de_clientes; ?> </h3>
+
+                            <p>Clientes registrados</p>
+                        </div>
+                        <a href="<?php echo $URL;?>/clientes">
+                            <div class="icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                        </a>
+                        <a href="<?php echo $URL;?>/clientes" class="small-box-footer">
                             Mas información <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
